@@ -25,21 +25,28 @@ config.window_padding = {
   bottom = 0,
 }
 
+-- Mode bubble in the tab bar: rounded pill with a Nerd Font icon and a label
 wezterm.on("update-right-status", function(window, _)
-  local text = ""
-  local LEFT_ARROW = ""
-  local LEFT_ARROW_FOREGROUND = { Foreground = { Color = "#1e2030" } }
+  local icon, label, bg
 
   if window:leader_is_active() then
-    text = " " .. utf8.char(0x26A1) -- lightning
-    LEFT_ARROW = utf8.char(0xe0b2)
+    icon, label, bg = utf8.char(0xf11c), "LEADER", "#94e2d5" -- keyboard, teal
+  elseif window:active_key_table() == "resize_pane" then
+    icon, label, bg = utf8.char(0xf047), "RESIZE", "#f5a97f" -- arrows, peach
+  else
+    window:set_left_status("")
+    return
   end
 
+  -- flush with the window's left edge; right cap (U+E0B4) uses the pill color
   window:set_left_status(wezterm.format {
-    { Background = { Color = "#b7bdf8" } },
-    { Text = text },
-    LEFT_ARROW_FOREGROUND,
-    { Text = LEFT_ARROW }
+    { Background = { Color = bg } },
+    { Foreground = { Color = "#1e2030" } },
+    { Attribute = { Intensity = "Bold" } },
+    { Text = " " .. icon .. " " .. label },
+    "ResetAttributes",
+    { Foreground = { Color = bg } },
+    { Text = utf8.char(0xe0b4) .. " " },
   })
 end)
 
@@ -53,26 +60,43 @@ end)
 
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 2000 }
 config.keys = {
+  -- Ctrl-a twice sends a real Ctrl-a (zsh line start, Neovim increment)
+  {
+    key = "a",
+    mods = "LEADER|CTRL",
+    action = wezterm.action.SendKey { key = "a", mods = "CTRL" },
+  },
+  -- resize mode: arrows/hjkl repeat; any other key exits (and still does its normal job)
+  {
+    key = "r",
+    mods = "LEADER",
+    action = wezterm.action.ActivateKeyTable {
+      name = "resize_pane",
+      one_shot = false,
+      until_unknown = true,
+    },
+  },
+  -- [ ] go to prev/next tab (like Neovim), { } move the tab
   {
     key = "[",
     mods = "LEADER",
-    action = wezterm.action.MoveTabRelative(-1),
+    action = wezterm.action.ActivateTabRelative(-1),
   },
   {
     key = "]",
     mods = "LEADER",
+    action = wezterm.action.ActivateTabRelative(1),
+  },
+  {
+    key = "{",
+    mods = "LEADER",
+    action = wezterm.action.MoveTabRelative(-1),
+  },
+  {
+    key = "}",
+    mods = "LEADER",
     action = wezterm.action.MoveTabRelative(1),
   },
-  -- {
-  --   mods = "LEADER",
-  --   key = "H",
-  --   action = wezterm.action.ActivateTabRelative(-1),
-  -- },
-  -- {
-  --   mods = "LEADER",
-  --   key = "L",
-  --   action = wezterm.action.ActivateTabRelative(1),
-  -- },
   {
     mods = "LEADER",
     key = "M",
@@ -123,27 +147,6 @@ config.keys = {
     key = "l",
     action = wezterm.action.ActivatePaneDirection "Right"
   },
-  {
-    mods = "LEADER",
-    key = "LeftArrow",
-    action = wezterm.action.AdjustPaneSize { "Left", 5 }
-  },
-  {
-    mods = "LEADER",
-    key = "RightArrow",
-    action = wezterm.action.AdjustPaneSize { "Right", 5 }
-  },
-  {
-    mods = "LEADER",
-    key = "DownArrow",
-    action = wezterm.action.AdjustPaneSize { "Down", 5 }
-  },
-  {
-    mods = "LEADER",
-    key = "UpArrow",
-    action = wezterm.action.AdjustPaneSize { "Up", 5 }
-  },
-
   -- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
   -- { key = "LeftArrow", mods = "OPT", action = wezterm.action { SendString = "\x1bb" } },
   -- Make Option-Right equivalent to Alt-f; forward-word
@@ -158,6 +161,25 @@ for i = 1, 9 do
     action = wezterm.action.ActivateTab(i - 1),
   })
 end
+
+local function resize(direction)
+  return wezterm.action.AdjustPaneSize { direction, 5 }
+end
+
+config.key_tables = {
+  resize_pane = {
+    { key = "LeftArrow",  action = resize("Left") },
+    { key = "RightArrow", action = resize("Right") },
+    { key = "UpArrow",    action = resize("Up") },
+    { key = "DownArrow",  action = resize("Down") },
+    { key = "h",          action = resize("Left") },
+    { key = "l",          action = resize("Right") },
+    { key = "k",          action = resize("Up") },
+    { key = "j",          action = resize("Down") },
+    { key = "Escape",     action = "PopKeyTable" },
+    { key = "Enter",      action = "PopKeyTable" },
+  },
+}
 
 -- and finally, return the configuration to wezterm
 return config
