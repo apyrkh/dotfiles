@@ -1,6 +1,3 @@
-# === LOCALE ===
-export LANG=en_US.UTF-8
-
 # === OH MY ZSH CORE ===
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -34,12 +31,10 @@ source $ZSH/oh-my-zsh.sh
 # === SHELL OPTIONS ===
 setopt NO_BEEP
 setopt HIST_IGNORE_ALL_DUPS
-setopt SHARE_HISTORY
 setopt COMBINING_CHARS  # correct combining-char display; was set by /etc/zshrc
 
 # === USER CONFIGURATION ===
 export EDITOR="nvim"
-export DISABLE_UNTRACKED_FILES_DIRTY="true" # speed up prompt by ignoring untracked files in Git status
 
 # === TOOLS INIT ===
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"

@@ -10,7 +10,19 @@ timed() {
   local mode="multi"
   [[ "$1" == "-C" ]] && { mode="single"; shift; }
 
-  gtime -f "Mem: %M\nCPU: %P\nTime: %e" "$@" 2>&1 | awk -v mode="$mode" '
+  # GNU time: "gtime" from Homebrew on macOS, /usr/bin/time on Linux
+  # (macOS's own /usr/bin/time is BSD and has no -f, hence the --version probe)
+  local time_cmd
+  if (( $+commands[gtime] )); then
+    time_cmd=gtime
+  elif /usr/bin/time --version >/dev/null 2>&1; then
+    time_cmd=/usr/bin/time
+  else
+    print -u2 "timed: GNU time not found (macOS: brew install gnu-time)"
+    return 1
+  fi
+
+  "$time_cmd" -f "Mem: %M\nCPU: %P\nTime: %e" "$@" 2>&1 | awk -v mode="$mode" '
   function format_thousands(n) {
     s = ""
     while (n >= 1000) {

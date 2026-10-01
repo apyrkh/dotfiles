@@ -5,24 +5,17 @@
 
 [core]
   editor = nvim
-  ignorecase = false
-[push]
-  default = simple
-[color]
-  status = auto
-  diff = auto
-  branch = auto
-  interactive = auto
-  grep = auto
-  ui = auto
+[init]
+  defaultBranch = main
 [diff]
+  algorithm = histogram
   tool = nvimdiff
-[difftool "nvimdiff"]
-  cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
-  path =
-[mergetool "nvimdiff"]
-  cmd = nvim -d \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
+[merge]
+  tool = nvimdiff
+[push]
+  autoSetupRemote = true
+[fetch]
+  prune = true
 [credential "https://github.com"]
 	helper = 
 	helper = !gh auth git-credential

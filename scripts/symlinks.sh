@@ -56,13 +56,21 @@ for file in "${files[@]}"; do
     info "Linked: ~/$file"
 done
 
-# ~/.zprofile used to be managed here. Its symlink would dangle forever on
-# machines installed before the file was dropped, and zsh silently skips a
-# dangling profile - which is how Homebrew fell off PATH.
-if [[ -L "$HOME/.zprofile" ]] && [[ "$(readlink "$HOME/.zprofile")" == "$source_home/"* ]]; then
-    rm "$HOME/.zprofile"
-    info "Removed obsolete link: ~/.zprofile"
-fi
+# Paths this repo used to manage. Their links would dangle forever on machines
+# installed before the file was dropped (zsh silently skips a dangling
+# ~/.zprofile - which is how Homebrew fell off PATH). Only links pointing into
+# this repo are removed; real files are left alone.
+obsolete=(
+    ".zprofile"
+)
+
+for file in "${obsolete[@]}"; do
+    target_path="$HOME/$file"
+    if [[ -L "$target_path" ]] && [[ "$(readlink "$target_path")" == "$source_home/"* ]]; then
+        rm "$target_path"
+        info "Removed obsolete link: ~/$file"
+    fi
+done
 
 if [[ -n "$backup_dir" ]]; then
     info "Backups saved to: $backup_dir"

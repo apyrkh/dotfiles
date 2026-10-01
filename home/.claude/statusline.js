@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// ─── Hook payload schema (Claude Code StopHook, as of v2.1.193) ───────────────
+// ─── Status line payload schema (Claude Code statusLine command, v2.1.193) ────
 // To re-inspect the live payload, temporarily add to the main block:
 //   const F = '/tmp/statusline-debug.json';
 //   const sz = require('fs').existsSync(F) ? require('fs').statSync(F).size : 0;

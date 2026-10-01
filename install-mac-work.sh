@@ -24,7 +24,9 @@ brew install docker-compose     # `docker compose` — same
 
 # devcontainer CLI — via bun, not brew: the formula depends_on "node" and would
 # pull a second Node.js alongside the fnm-managed one. Same npm package either way.
-bun add --global @devcontainers/cli   # `devcontainer up`/`exec`
+if ! command -v devcontainer &>/dev/null; then
+    bun add --global @devcontainers/cli   # `devcontainer up`/`exec`
+fi
 
 # === fun / misc ===
 brew tap peonping/tap

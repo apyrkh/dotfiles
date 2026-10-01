@@ -10,6 +10,7 @@ export DEBIAN_FRONTEND=noninteractive
 # Standalone installers drop binaries here; put them on PATH so rerun checks
 # and the `fd` alias resolve.
 export PATH="$HOME/.bun/bin:$HOME/.local/bin:$HOME/.local/share/fnm:$PATH"
+mkdir -p "$HOME/.local/bin"
 
 # One-line wrapper so each category below reads like the macOS script.
 apt_install() {
@@ -84,7 +85,6 @@ fi
 apt_install luarocks
 apt_install fzf
 apt_install fd-find             # ships the binary as "fdfind" (name clash), aliased below
-mkdir -p "$HOME/.local/bin"
 if ! command -v fd &>/dev/null; then
     ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
 fi
