@@ -1,20 +1,7 @@
 return {
   bashls = {},
-  lua_ls = {
-    settings = {
-      Lua = {
-        diagnostics = { globals = { "vim" } },
-        workspace = {
-          -- only core runtime
-          -- library = { vim.env.VIMRUNTIME },
-
-          -- full runtime path (includes plugins & after/), better typing
-          library = vim.api.nvim_get_runtime_file("", true),
-          checkThirdParty = false
-        },
-      },
-    },
-  },
+  -- library/types come from lazydev.nvim (plugins/code.lua)
+  lua_ls = {},
   jsonls = {
     settings = {
       json = {
@@ -48,10 +35,8 @@ return {
       typescript = { preferences = { quotePreference = "double" } },
     },
   },
-  biome = {
-    -- use Biome from the project
-    -- cmd = { "npx", "biome", "lsp-proxy" },
-    cmd = { vim.fn.getcwd() .. "/node_modules/.bin/biome", "lsp-proxy" },
-  },
+  -- nvim-lspconfig default already prefers <root>/node_modules/.bin/biome
+  -- biome = { cmd = { vim.fn.getcwd() .. "/node_modules/.bin/biome", "lsp-proxy" }, },
+  biome = {},
   graphql = {},
 }

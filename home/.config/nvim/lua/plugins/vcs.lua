@@ -3,8 +3,23 @@ return {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
     keys = {
-      { "<leader>v[", function() require("gitsigns").nav_hunk("prev", { target = "all" }) end, desc = "Prev Hunk" },
-      { "<leader>v]", function() require("gitsigns").nav_hunk("next", { target = "all" }) end, desc = "Next Hunk" },
+      -- ]c / [c fall back to built-in diff-mode hunk jumps
+      {
+        "[c",
+        function()
+          if vim.wo.diff then return vim.cmd.normal({ "[c", bang = true }) end
+          require("gitsigns").nav_hunk("prev", { target = "all" })
+        end,
+        desc = "Prev Hunk",
+      },
+      {
+        "]c",
+        function()
+          if vim.wo.diff then return vim.cmd.normal({ "]c", bang = true }) end
+          require("gitsigns").nav_hunk("next", { target = "all" })
+        end,
+        desc = "Next Hunk",
+      },
       { "<leader>vb", function() require("gitsigns").blame_line({ full = true }) end,          desc = "Blame line (full)" },
       { "<leader>vB", function() require("gitsigns").blame() end,                              desc = "Blame" },
       { "<leader>vp", function() require("gitsigns").preview_hunk() end,                       desc = "Preview Hunk" },

@@ -21,7 +21,7 @@ return {
         desc = "Copilot Smart Accept",
       },
       {
-        "<leader>ct",
+        "<leader>at",
         function()
           local client = require("copilot.client")
           local enabled = not client.is_disabled()
@@ -31,7 +31,7 @@ return {
         end,
         desc = "Toggle Copilot",
       },
-      { "<leader>cs", "<cmd>Copilot status<cr>", desc = "Copilot Status" },
+      { "<leader>as", "<cmd>Copilot status<cr>", desc = "Copilot Status" },
     },
     opts = {
       -- filetypes = {

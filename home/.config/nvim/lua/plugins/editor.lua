@@ -72,17 +72,21 @@ return {
     version = false,
     keys = {
       { "g=", mode = { "n", "x" } },
-      { "gx", mode = { "n", "x" } },
+      { "cx", mode = { "n", "x" } },
       { "gm", mode = { "n", "x" } },
-      { "gr", mode = { "n", "x" } },
+      { "cr", mode = { "n", "x" } },
       { "gs", mode = { "n", "x" } },
       -- "g=" - evaluate text and replace with result, e.g. "g=iw"
-      -- "gx" - exchange text, e.g. "gxiw"
+      -- "cx" - exchange text, e.g. "cxiw"
       -- "gm" - multiply text, e.g. "gmiw"
-      -- "gr" - replace with register, e.g. "griw"
+      -- "cr" - replace with register, e.g. "criw"
       -- "gs" - sort text
     },
-    opts = {},
+    -- keep built-in gx (open URL) and gr* (LSP) mappings
+    opts = {
+      exchange = { prefix = "cx" },
+      replace = { prefix = "cr" },
+    },
   },
   -- TODO: consider ultimate-autopair.nvim if mini.pairs does not work well
   {
@@ -114,8 +118,8 @@ return {
       { "P",          "<Plug>(YankyPutBefore)",                   desc = "Put Before",      mode = { "n", "x" } },
       { "p",          "<Plug>(YankyPutAfter)",                    desc = "Put After",       mode = { "n", "x" } },
       { "<leader>pp", function() vim.cmd("YankyRingHistory") end, desc = "Yank History" },
-      { "<leader>p[", "<Plug>(YankyPreviousEntry)",               desc = "Prev Yanky Entry" },
-      { "<leader>p]", "<Plug>(YankyNextEntry)",                   desc = "Next Yanky Entry" },
+      { "[y",         "<Plug>(YankyPreviousEntry)",               desc = "Prev Yanky Entry" },
+      { "]y",         "<Plug>(YankyNextEntry)",                   desc = "Next Yanky Entry" },
     },
     opts = {
       ring = {

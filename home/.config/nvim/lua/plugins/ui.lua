@@ -115,7 +115,6 @@ return {
         { "<leader>f", group = "find", icon = "󰍉" },
         { "<leader>h", group = "harpoon", icon = "󱡁" },
         { "<leader>c", group = "code", icon = "" },
-        { "<leader>d", group = "dev/lsp", icon = "󱈄" },
         { "<leader>a", group = "ai", icon = "󰚩" },
         { "<leader>v", group = "vcs", icon = "" },
         { "<leader>vf", group = "git-search", icon = "󰍉" },

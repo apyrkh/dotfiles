@@ -89,7 +89,7 @@ return {
       -- See :h blink-cmp-config-keymap for defining your own keymap
       keymap = {
         preset = "default",
-        ["C-<space>"] = {},
+        ["<C-space>"] = {},
         ["<C-p>"] = {},
         ["<C-n>"] = {},
         ["<C-e>"] = { "show", "hide" },
@@ -104,9 +104,10 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { "lsp", "snippets", "buffer", "path", "npm" },
+        default = { "lazydev", "lsp", "snippets", "buffer", "path", "npm" },
 
         providers = {
+          lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
           lsp = {
             transform_items = function(_, items)
               local kind = require("blink.cmp.types").CompletionItemKind
@@ -134,7 +135,7 @@ return {
         },
         keymap = {
           preset = "cmdline",
-          ["C-<space>"] = {},
+          ["<C-space>"] = {},
           ["<C-p>"] = {},
           ["<C-n>"] = {},
           ["<C-e>"] = { "show", "hide" },
@@ -157,12 +158,17 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     cmd = { "Mason", "LspInfo" },
     config = function()
-      local lsp_config = require("lsp")
-      local ensure_installed = vim.tbl_keys(lsp_config)
+      local servers = require("lsp")
+
+      -- register configs before mason-lspconfig enables the servers;
+      -- blink.cmp already adds its capabilities via vim.lsp.config("*")
+      for server, opts in pairs(servers) do
+        vim.lsp.config(server, opts)
+      end
 
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = ensure_installed,
+        ensure_installed = vim.tbl_keys(servers),
       })
 
       -- conform.nvim formatters aren't LSP servers (mason-lspconfig skips them),
@@ -173,13 +179,17 @@ return {
         ensure_installed = { "eslint_d", "prettierd", "prettier", "pgformatter" },
       })
       mason_tool_installer.check_install()
-
-      for server, opts in pairs(lsp_config) do
-        opts.capabilities = require("blink.cmp").get_lsp_capabilities(opts.capabilities)
-
-        vim.lsp.config(server, opts)
-      end
     end,
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "snacks.nvim",        words = { "Snacks" } },
+      },
+    },
   },
   {
     "nvim-treesitter/nvim-treesitter",
