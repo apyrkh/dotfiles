@@ -12,7 +12,7 @@ die()  { printf 'Error: %s\n' "$*" >&2; exit 1; }
 files=(
     ".claude/CLAUDE.md"
     ".claude/skills/bun-performance"
-    ".claude/skills/compress-media"
+    ".claude/skills/media-compress"
     ".claude/statusline.js"
     ".config/nvim"
     ".config/wezterm"
@@ -61,6 +61,7 @@ done
 # ~/.zprofile - which is how Homebrew fell off PATH). Only links pointing into
 # this repo are removed; real files are left alone.
 obsolete=(
+    ".claude/skills/compress-media"
     ".zprofile"
 )
 

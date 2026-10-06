@@ -27,6 +27,7 @@ The `files=()` array in `scripts/symlinks.sh` is the source of truth for managed
 - **Tiers:** `install.sh` is the base CLI tier (any machine, incl. Ubuntu/Dev Container via `scripts/install-ubuntu.sh`). `install-mac-work.sh` runs `install.sh` then installs macOS work GUI apps and Docker/Colima via plain `brew install`. `install-mac-home.sh` runs `install-mac-work.sh` then installs personal media/gaming apps, also via `brew install`. No Brewfile — package names live directly in each script as flat arrays, grouped with `# === category ===` comments.
 - **README.md structure:** `## Setup` = sequential/mandatory bootstrap steps, one `### <bare noun>` subsection per step with its own code block. `## Dev Tools` = flat, optional, order-independent tools in a single code block with `#`-comment separators.
 - **Claude Code agents and skills** are tracked per entry under `home/.claude/agents/` and `home/.claude/skills/`; add each new entry to `scripts/symlinks.sh`.
+- **Claude Code skill names** use `<domain>-<verb>` (e.g. `media-compress`) so the `/` menu groups them. User-only skills set `disable-model-invocation: true` to keep their description out of context.
 - **Claude Code skills** (`home/.claude/skills/`) must be routers, not the sole holder of a command or decision table. Real content belongs in `docs/tldr/`; a skill only points there. If deleting the skill would lose information a human needs, it's not a router.
 
 ## Style

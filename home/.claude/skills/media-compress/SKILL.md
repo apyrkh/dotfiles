@@ -1,9 +1,12 @@
 ---
 description: Compress or downsize video, PDF, and image (PNG/JPEG/WebP/HEIC) files.
-when_to_use: Use when the user asks to compress, shrink, downsize, or re-encode a video, PDF, or image file.
+argument-hint: <file> [target size or quality]
+disable-model-invocation: true
 ---
 
 # Compress media
+
+Input: `$ARGUMENTS`
 
 This skill is a router, not a manual. The routing table and all commands live in
 `~/.dotfiles/docs/tldr/README.md` and the tldr files it points to.
