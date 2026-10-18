@@ -13,6 +13,7 @@ return {
     end,
     opts = {
       directory = "", -- no global sessions
+      autowrite = false, -- save only via <leader>ww
     },
   },
 }
