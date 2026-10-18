@@ -49,7 +49,17 @@ return {
 
         sql             = { "pg_format", stop_after_first = true },
 
+        lua             = { "stylua" },
+        sh              = { "shfmt" },
+        bash            = { "shfmt" },
+
         ["_"]           = { "lsp" },
+      },
+
+      -- match dotfiles style (2 spaces); CLI args override project config files
+      formatters = {
+        stylua = { prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" } },
+        shfmt = { prepend_args = { "-i", "2", "-ci" } },
       },
     },
   },
@@ -176,7 +186,7 @@ return {
       -- lazy load — so call check_install() directly below.
       local mason_tool_installer = require("mason-tool-installer")
       mason_tool_installer.setup({
-        ensure_installed = { "eslint_d", "prettierd", "prettier", "pgformatter" },
+        ensure_installed = { "eslint_d", "prettierd", "prettier", "pgformatter", "stylua", "shfmt" },
       })
       mason_tool_installer.check_install()
     end,
@@ -220,10 +230,13 @@ return {
         "sql",
       })
 
-      -- vim.treesitter.start()
-      vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+      vim.api.nvim_create_autocmd("FileType", {
         callback = function(args)
-          pcall(vim.treesitter.start, args.buf)
+          if not pcall(vim.treesitter.start, args.buf) then
+            return
+          end
+          vim.wo[0][0].foldmethod = "expr"
+          vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
         end,
       })
     end

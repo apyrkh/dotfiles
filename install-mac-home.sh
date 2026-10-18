@@ -38,6 +38,7 @@ brew install --cask balenaetcher        # flash OS images to SD cards & USB driv
 # === fun / misc ===
 brew install --cask battle-net
 brew install --cask steam
+brew install --cask frankea/whisky/whisky
 brew install --cask discord
 brew install --cask telegram
 brew install --cask whatsapp

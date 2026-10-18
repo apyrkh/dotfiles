@@ -49,9 +49,7 @@ return {
   },
   {
     "nvim-tree/nvim-tree.lua",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons"
-    },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
       { "<leader>ee", "<cmd>NvimTreeToggle<CR>",   desc = "Toggle Explorer" },
       { "<leader>eo", "<cmd>NvimTreeFindFile<CR>", desc = "Open in Explorer" },

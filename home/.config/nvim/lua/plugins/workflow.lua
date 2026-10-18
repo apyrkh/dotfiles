@@ -2,9 +2,7 @@ return {
   {
     -- TODO: consider nvim-mini/mini.sessions
     "rmagatti/auto-session",
-    dependencies = {
-      "ibhagwan/fzf-lua",
-    },
+    dependencies = { "ibhagwan/fzf-lua", },
     keys = {
       { "<leader>ww", "<cmd>AutoSession save<CR>",          desc = "Save Session" },
       { "<leader>wr", "<cmd>AutoSession restore<CR>",       desc = "Restore Session" },

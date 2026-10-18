@@ -2,8 +2,21 @@ return {
   {
     "nvim-mini/mini.ai",
     version = false,
+    -- only provides textobjects.scm queries for gen_spec.treesitter, no setup
+    dependencies = { { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" } },
     event = { "BufReadPre", "BufNewFile" },
-    opts = { n_lines = 200 },
+    opts = function()
+      local ai = require("mini.ai")
+      return {
+        n_lines = 200,
+        custom_textobjects = {
+          -- "f" becomes function definition; function call moves to "u"
+          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+          u = ai.gen_spec.function_call(),
+        },
+      }
+    end,
   },
   {
     "nvim-mini/mini.align",

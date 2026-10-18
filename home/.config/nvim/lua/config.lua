@@ -25,6 +25,7 @@ vim.opt.smartindent = true
 vim.opt.colorcolumn = "80" -- vertical line at 80 characters
 -- vim.opt.textwidth = 80      -- force hard wrap at 80 characters
 vim.opt.wrap = false       -- disable line wrapping
+vim.opt.foldlevelstart = 99 -- open files unfolded (treesitter folds, plugins/code.lua)
 
 -- UI settings
 vim.opt.termguicolors = true
