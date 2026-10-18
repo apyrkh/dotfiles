@@ -14,6 +14,7 @@ files=(
     ".claude/skills/bun-performance"
     ".claude/skills/media-compress"
     ".claude/statusline.js"
+    ".config/git/ignore"
     ".config/nvim"
     ".config/wezterm"
     ".config/zsh"

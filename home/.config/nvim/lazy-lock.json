@@ -1,5 +1,4 @@
 {
-  "auto-session": { "branch": "main", "commit": "02a5588f677970a9bc784115c62bef9e5855499b" },
   "blink-cmp-npm.nvim": { "branch": "main", "commit": "8f8a5317c287c7fa313c569d0fd837b426212f54" },
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
   "catppuccin": { "branch": "main", "commit": "edefef779ab08ce1a4a404713e3012b0d202bd35" },
@@ -23,6 +22,7 @@
   "mini.indentscope": { "branch": "main", "commit": "14eecb1cf33d1db35b8ac665b1aab4d3c9b47fe3" },
   "mini.operators": { "branch": "main", "commit": "0e25aac29dd6cdbcfdbd8a6505a8e3be5064ef1a" },
   "mini.pairs": { "branch": "main", "commit": "03eb1f0062a2cee5314d1ac3939246e4bb21352e" },
+  "mini.sessions": { "branch": "main", "commit": "273b94f797c7c260ed723880fd0d4f405372b8b6" },
   "mini.surround": { "branch": "main", "commit": "59ce0acf79e1d930756ef3a7cb4c2369560cf548" },
   "neogit": { "branch": "master", "commit": "a6549816e62cec7037f1549d8f1659d45635370c" },
   "nvim-colorizer.lua": { "branch": "master", "commit": "72a05f62c52241bc7441c820eb53946f92b2e6a4" },

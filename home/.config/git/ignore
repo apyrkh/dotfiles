@@ -1,0 +1,4 @@
+**/.claude/settings.local.json
+
+# mini.sessions local session (nvim)
+Session.vim
