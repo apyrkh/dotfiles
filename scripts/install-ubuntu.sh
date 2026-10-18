@@ -93,11 +93,14 @@ apt_install ripgrep
 # === cli ===
 # git is installed in prerequisites above - the curl installers need it there.
 apt_install gh                  # GitHub CLI
-# lazygit — not in apt; the release URL needs the version number, so look it up
+# lazygit — not in apt; the release URL needs the version number, so look it up.
+# Read it from the releases/latest redirect: the unauthenticated GitHub API is
+# rate-limited per IP (60/h) and returns 403 on shared CI runners.
 if ! command -v lazygit &>/dev/null; then
     echo "==> Installing lazygit..."
     arch="$(uname -m)"; [[ "$arch" == "aarch64" ]] && arch="arm64" || arch="x86_64"
-    lazygit_version="$(curl -fsSL "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p')"
+    lazygit_url="$(curl -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/jesseduffield/lazygit/releases/latest")"
+    lazygit_version="${lazygit_url##*/v}"
     curl -fsSL "https://github.com/jesseduffield/lazygit/releases/download/v${lazygit_version}/lazygit_${lazygit_version}_linux_${arch}.tar.gz" \
         | tar -xz -C "$HOME/.local/bin" lazygit
 fi
