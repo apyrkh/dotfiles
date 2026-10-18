@@ -61,20 +61,16 @@ backups=("$home_dir"/.dotfiles_backup-*)
 [[ -f "${backups[0]}/.vimrc" ]]
 [[ "$(cat "${backups[0]}/.vimrc")" == "existing vim configuration" ]]
 
-# Neovim: nvim-treesitter's main branch compiles parsers with the tree-sitter
-# CLI in the background, and `Lazy! sync` exits 0 even when a parser build
-# fails — so wait for the compiled .so files and assert they landed.
-echo "linux-smoke: syncing Neovim plugins..."
-timeout 900 nvim --headless "+Lazy! sync" +qa
-
+# Neovim: nvim-treesitter's main branch compiles parsers in the background, and
+# `Lazy! sync` exits 0 even when a parser build fails. Block on install() in the
+# same process: quitting early orphans tree-sitter compiles that race a later
+# nvim's install of the same parser (ENOTEMPTY on the cache dir). The check
+# below uses site/parser, since Nvim bundles its own lua.so in the runtime.
 parsers=(lua bash json typescript)
 wanted="$(printf '"%s",' "${parsers[@]}")"
-timeout 900 nvim --headless -c "lua vim.wait(600000, function()
-  for _, parser in ipairs({${wanted%,}}) do
-    if #vim.api.nvim_get_runtime_file('parser/' .. parser .. '.so', true) == 0 then return false end
-  end
-  return true
-end, 2000)" -c "qa"
+echo "linux-smoke: syncing Neovim plugins and parsers..."
+timeout 900 nvim --headless "+Lazy! sync" \
+  "+lua require('nvim-treesitter').install({${wanted%,}}):wait(600000)" +qa
 
 for parser in "${parsers[@]}"; do
   [[ -f "$home_dir/.local/share/nvim/site/parser/$parser.so" ]] ||
