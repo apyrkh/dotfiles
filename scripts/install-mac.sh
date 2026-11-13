@@ -37,6 +37,7 @@ brew install eza                # modern ls replacement
 brew install zoxide             # zi
 brew install fx                 # json viewer and processor, https://fx.wtf
 brew install gnu-time           # gtime; the shell's own `time` has no formatting options
+brew install poppler            # pdftoppm, pdftotext; Claude Code needs pdftoppm to read PDF page ranges
 
 # Deliberately not installed:
 #   zsh       — macOS already ships zsh 5.9 as the login shell; brew's copy is

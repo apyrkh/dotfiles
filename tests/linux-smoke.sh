@@ -33,7 +33,7 @@ export PATH="$home_dir/.bun/bin:$home_dir/.local/bin:$home_dir/.local/share/fnm:
 export PATH="$home_dir/.local/share/fnm/aliases/default/bin:$PATH"
 
 for command in bash bun claude codex copilot curl eza fd fdfind fx fzf gcc gh git go \
-  lazygit node nvim rg tree-sitter uv zoxide zsh; do
+  lazygit node nvim pdftoppm rg tree-sitter uv zoxide zsh; do
   assert_command "$command"
 done
 

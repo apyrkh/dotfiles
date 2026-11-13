@@ -126,6 +126,7 @@ if ! command -v fx &>/dev/null; then
 fi
 
 apt_install time                # /usr/bin/time; macOS gets this as gnu-time
+apt_install poppler-utils       # pdftoppm, pdftotext; Claude Code needs pdftoppm to read PDF page ranges
 
 # No macOS counterpart - the Mac gets these for free:
 apt_install sqlite3             # macOS ships /usr/bin/sqlite3
